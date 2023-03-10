@@ -11,4 +11,9 @@ Update CloudKey Gen 1 (UC-CK) inspired from [jmewing](https://github.com/jmewing
 ssh ubnt@192.168.1.30
 ```
 3. load the update script
+```bash
+cd
+wget https://raw.githubusercontent.com/DasULTRAS/Update-CloudKey-Gen1/main/update.sh
+bash update.sh
+```
 4. Start the Script until *Latest tested version installed...*
