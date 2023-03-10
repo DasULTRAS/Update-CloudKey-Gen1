@@ -36,11 +36,11 @@ apt -y purge ubnt-archive-keyring ubnt-unifi-setup unifi
 apt -y purge rfkill bt-proxy bluez openjdk-8-jre-headless:armhf
 apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9-host
 apt -y purge libldap-common liblocale-gettext-perl
-apt -y purge aufs-tools
+apt -y purge aufs-tools initramfs-tools
 apt -y purge busybox*
-apt-get -y autoremove
 apt update
 apt dist-upgrade
+apt-get -y autoremove
 echo "# buster" >> /etc/apt/sources.list
 reboot
 }
@@ -54,9 +54,7 @@ deb http://deb.debian.org/debian/ buster-backports main
 deb http://security.debian.org/ buster/updates main contrib non-free
 EOF
 apt update
-apt -y upgrade
 apt dist-upgrade
-apt -y full-upgrade
 apt -y autoremove
 echo "# bullseye" >> /etc/apt/sources.list
 reboot
@@ -71,9 +69,7 @@ deb http://deb.debian.org/debian/ bullseye-backports main
 deb http://security.debian.org/ bullseye/updates main contrib non-free
 EOF
 apt update
-apt -y upgrade
 apt dist-upgrade
-apt -y full-upgrade
 apt -y autoremove
 echo "# bullseye" >> /etc/apt/sources.list
 reboot
