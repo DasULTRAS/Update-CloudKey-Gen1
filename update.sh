@@ -39,7 +39,7 @@ apt -y purge libldap-common liblocale-gettext-perl
 apt -y purge aufs-tools initramfs-tools
 apt -y purge busybox*
 apt update
-apt dist-upgrade
+apt -y dist-upgrade
 apt-get -y autoremove
 echo "# buster" >> /etc/apt/sources.list
 reboot
@@ -54,7 +54,7 @@ deb http://deb.debian.org/debian/ buster-backports main
 deb http://security.debian.org/ buster/updates main contrib non-free
 EOF
 apt update
-apt dist-upgrade
+apt -y dist-upgrade
 apt -y autoremove
 echo "# bullseye" >> /etc/apt/sources.list
 reboot
@@ -69,7 +69,7 @@ deb http://deb.debian.org/debian/ bullseye-backports main
 deb http://security.debian.org/ bullseye/updates main contrib non-free
 EOF
 apt update
-apt dist-upgrade
+apt -y dist-upgrade
 apt -y autoremove
 echo "# bullseye" >> /etc/apt/sources.list
 reboot
