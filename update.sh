@@ -34,10 +34,11 @@ apt update
 apt -y purge mongodb-clients mongodb-server
 apt -y purge ubnt-archive-keyring ubnt-unifi-setup unifi
 apt -y purge rfkill bt-proxy bluez openjdk-8-jre-headless:armhf
-apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils
+apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9-host
 apt -y purge libldap-common liblocale-gettext-perl
+apt -y purge busybox*
+apt-get -y autoremove
 echo "# xenial" >> /etc/apt/sources.list
-apt -y autoremove
 reboot
 }
 
