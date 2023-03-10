@@ -31,7 +31,11 @@ deb http://security.debian.org/ stretch/updates main contrib non-free
 EOF
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 871920D1991BC93C 648ACFD622F3D138
 apt update
-apt -y purge mongodb-clients  mongodb-server  mongodb-server-core  postgresql  postgresql-9.6  postgresql-client  postgresql-common  postgresql-contrib  postgresql-contrib-9.6  ubnt-archive-keyring  ubnt-certgen  ubnt-postgresql-setup  ubnt-unifi-setup  unifi  unifi-management-portal  unifi-protect  unifi-protect-setup nginx-common nginx-light libnginx-mod-http-echo
+apt -y purge mongodb-clients mongodb-server
+apt -y purge ubnt-archive-keyring ubnt-unifi-setup unifi
+apt -y purge rfkill openjdk-8-jre-headless:armhf
+apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils
+apt -y purge libldap-common liblocale-gettext-perl
 echo "# xenial" >> /etc/apt/sources.list
 apt -y autoremove
 reboot
