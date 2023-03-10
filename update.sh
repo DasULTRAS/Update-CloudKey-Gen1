@@ -38,7 +38,7 @@ apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9
 apt -y purge libldap-common liblocale-gettext-perl
 apt -y purge busybox*
 apt-get -y autoremove
-echo "# xenial" >> /etc/apt/sources.list
+# echo "# xenial" >> /etc/apt/sources.list
 reboot
 }
 
