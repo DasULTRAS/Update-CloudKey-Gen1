@@ -12,17 +12,33 @@ function ctrl_c() {
 }
 
 if [ `cat /etc/apt/sources.list | egrep "^deb|^#" | wc -l` -le 4 ]; then
-    echo "# stretch" >> /etc/apt/sources.list
+    echo "# init" >> /etc/apt/sources.list
 fi
 
 DEBIAN_FRONTEND=noninteractive
 state="`tail -1 /etc/apt/sources.list | cut -d' ' -f2 | egrep -v 'http'`"
 
-stretch () {
+init () {
 tar -zcvf ~/sources.tgz /etc/apt/sources.list.d/
 rm -rfv /etc/apt/sources.list.d/*
 dpkg-reconfigure dash #Select NO Here
 lsb_release -a
+cat << EOF > /etc/systemd/system/cloudkey_update.service
+[Unit]
+Description=CloudKey Version Update
+
+[Service]
+ExecStart=~/update.sh
+
+[Install]
+WantedBy=multi-user.target
+EOF
+echo "# stretch" >> /etc/apt/sources.list
+systemctl enable cloudkey_update.service
+systemctl start cloudkey_update.service
+}
+
+stretch () {
 cat << EOF > /etc/apt/sources.list
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
@@ -39,6 +55,7 @@ apt -y purge libldap-common liblocale-gettext-perl
 apt -y purge aufs-tools initramfs-tools
 apt -y purge busybox*
 apt update
+apt -y upgrade
 apt -y dist-upgrade
 apt-get -y autoremove
 echo "# buster" >> /etc/apt/sources.list
@@ -54,6 +71,7 @@ deb http://deb.debian.org/debian/ buster-backports main
 deb http://security.debian.org/ buster/updates main contrib non-free
 EOF
 apt update
+apt -y upgrade
 apt -y dist-upgrade
 apt -y autoremove
 echo "# bullseye" >> /etc/apt/sources.list
@@ -69,9 +87,18 @@ deb http://deb.debian.org/debian/ bullseye-backports main
 deb http://security.debian.org/ bullseye/updates main contrib non-free
 EOF
 apt update
+apt -y upgrade
 apt -y dist-upgrade
 apt -y autoremove
-echo "# bullseye" >> /etc/apt/sources.list
+echo "# finish" >> /etc/apt/sources.list
+reboot
+}
+
+finish (){
+systemctl stop cloudkey_update.service
+systemctl disable cloudkey_update.service
+systemctl daemon-reload
+rm /etc/systemd/system/cloudkey_update.service
 reboot
 }
 
