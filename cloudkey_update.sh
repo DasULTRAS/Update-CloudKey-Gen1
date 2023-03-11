@@ -81,10 +81,10 @@ reboot
 bullseye () {
 lsb_release -a
 cat << EOF > /etc/apt/sources.list
-deb http://deb.debian.org/debian/ bullseye main contrib non-free
-deb http://deb.debian.org/debian/ bullseye-updates main contrib non-free
-deb http://deb.debian.org/debian/ bullseye-backports main
-deb http://security.debian.org/ bullseye/updates main contrib non-free
+deb http://deb.debian.org/debian stable main contrib non-free
+deb-src http://deb.debian.org/debian stable main contrib non-free
+deb http://security.debian.org/debian-security stable-security main contrib non-free
+deb-src http://security.debian.org/debian-security stable-security main contrib non-free
 EOF
 apt update
 apt -y upgrade
