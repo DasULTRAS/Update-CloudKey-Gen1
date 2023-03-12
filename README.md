@@ -14,8 +14,8 @@ ssh ubnt@192.168.1.30
 ```bash
 cd
 wget https://raw.githubusercontent.com/DasULTRAS/Update-CloudKey-Gen1/main/cloudkey_update.sh
-chmod +x ~/cloudkey_update.sh
-bash ~/cloudkey_update.sh
+chmod +x ./cloudkey_update.sh
+./cloudkey_update.sh
 
 ```
 4. Start the Script until *Latest tested version installed...*
