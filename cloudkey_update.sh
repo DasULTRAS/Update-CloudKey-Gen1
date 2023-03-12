@@ -37,18 +37,17 @@ EOF
 apt update
 apt -y purge mongodb-clients mongodb-server
 apt -y purge ubnt-archive-keyring ubnt-unifi-setup unifi
-rm -rf /etc/bt-proxy
 apt -y purge rfkill bt-proxy bluez openjdk-8-jre-headless:armhf
+rm -rf /etc/bt-proxy
 apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9-host
 apt -y purge libldap-common liblocale-gettext-perl
-rm -rf /var/lib/initramfs-tools
 apt -y purge aufs-tools initramfs-tools
+rm -rf /var/lib/initramfs-tools
+apt -y purge exim4-base exim4-config exim4-daemon-light
+rm -rf /var/lib/exim4
 apt -y purge busybox*
-apt -y purge exim4*
-apt -y purge unattended-upgrades findutils
 apt-get -y autoremove
 apt update
-apt -y install unattended-upgrades findutils
 apt -y upgrade
 rm -rf /var/run/avahi-daemon
 apt -y dist-upgrade
