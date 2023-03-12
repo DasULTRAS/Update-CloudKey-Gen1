@@ -67,12 +67,10 @@ EOF
 # Check if the statoverride file exists
 if [[ ! -f "/var/lib/dpkg/statoverride" ]]; then
   echo "Statoverride file not found"
-  exit 1
 fi
 # Check if the line exists in the statoverride file
 if [[ ! $(grep "Debian-exim" /var/lib/dpkg/statoverride) ]]; then
-  echo "Line not found in statoverride file"
-  exit 1
+  echo "Debian-exim not found in statoverride file"
 fi
 # Remove the line from the statoverride file
 sudo sed -i '/Debian-exim/d' /var/lib/dpkg/statoverride
