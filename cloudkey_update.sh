@@ -26,6 +26,7 @@ dpkg-reconfigure dash #Select NO Here
 # Add missing not privileged User for installation
 adduser --system --force-badname --home /nonexistent --no-create-home --shell /bin/false --group _apt
 passwd -l _apt
+sudo chown -R _apt /var/cache/apt/
 # Add missing keys
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 871920D1991BC93C 648ACFD622F3D138 112695A0E562B32A 0E98404D386FA1D9
 cat << EOF > /etc/apt/sources.list
@@ -43,7 +44,7 @@ apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9
 apt -y purge libldap-common liblocale-gettext-perl
 apt -y purge aufs-tools initramfs-tools
 rm -rf /var/lib/initramfs-tools
-apt -y purge exim4-base exim4-config exim4-daemon-light
+apt -y purge exim4-daemon-light exim4-config exim4-base
 rm -rf /var/lib/exim4
 apt -y purge busybox*
 apt-get -y autoremove
@@ -81,6 +82,23 @@ apt update
 apt -y upgrade
 apt -y dist-upgrade
 apt -y autoremove
+# init next installation
+echo "# bullseye" >> /etc/apt/sources.list
+echo "REBOOT SYSTEM"
+}
+
+bullseye () {
+cat << EOF > /etc/apt/sources.list
+deb http://deb.debian.org/debian stable main contrib non-free
+deb-src http://deb.debian.org/debian stable main contrib non-free
+deb http://security.debian.org/debian-security stable-security main contrib non-free
+deb-src http://security.debian.org/debian-security stable-security main contrib non-free
+EOF
+# Updates
+apt update
+apt -y upgrade
+apt -y dist-upgrade
+apt -y autoremove
 echo "REBOOT SYSTEM"
 }
 
@@ -90,3 +108,5 @@ else
         echo "Starting with $state"
         $state
 fi
+
+exit 0
