@@ -11,6 +11,7 @@ Update CloudKey Gen 1 (UC-CK) inspired from [jmewing](https://github.com/jmewing
 ssh ubnt@192.168.1.30
 ```
 3. load the update script
+
   3.1. debian
   ```bash
 cd
@@ -18,6 +19,7 @@ wget https://raw.githubusercontent.com/DasULTRAS/Update-CloudKey-Gen1/main/cloud
 chmod +x ./cloudkey_update.sh
 ./cloudkey_update.sh
   ```
+  
   3.2. Ubuntu
   ```bash
 cd
