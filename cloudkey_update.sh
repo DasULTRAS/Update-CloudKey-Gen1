@@ -29,12 +29,12 @@ sudo passwd -l _apt
 sudo chown -R _apt /var/cache/apt/
 # Add missing keys
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 871920D1991BC93C 648ACFD622F3D138 112695A0E562B32A 0E98404D386FA1D9
-sudo cat << EOF > /etc/apt/sources.list
+sudo bash -c 'cat << EOF > /etc/apt/sources.list
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
 deb http://deb.debian.org/debian/ stretch-backports main
 deb http://security.debian.org/ stretch/updates main contrib non-free
-EOF
+EOF'
 sudo apt update
 sudo apt -y purge mongodb-clients mongodb-server
 sudo apt -y purge ubnt-archive-keyring ubnt-unifi-setup unifi
@@ -58,23 +58,23 @@ echo "REBOOT SYSTEM"
 }
 
 buster () {
-sudo cat << EOF > /etc/apt/sources.list
+sudo bash -c 'cat << EOF > /etc/apt/sources.list
 deb http://deb.debian.org/debian buster main contrib non-free
 deb-src http://deb.debian.org/debian buster main contrib non-free
 deb http://security.debian.org/debian-security buster/updates main contrib non-free
 deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
-EOF
+EOF'
 ## Remove unknown group 'Debian-exim' in statoverride file
 # Check if the statoverride file exists
-if [[ ! -f "/var/lib/dpkg/statoverride" ]]; then
+sudo bash -c 'if [[ ! -f "/var/lib/dpkg/statoverride" ]]; then
   echo "Statoverride file not found"
-fi
+fi'
 # Check if the line exists in the statoverride file
-if [[ ! $(sudo grep "Debian-exim" /var/lib/dpkg/statoverride) ]]; then
+sudo bash -c 'if [[ ! $(grep "Debian-exim" /var/lib/dpkg/statoverride) ]]; then
   echo "Debian-exim not found in statoverride file"
-fi
+fi'
 # Remove the line from the statoverride file
-sudo sed -i '/Debian-exim/d' /var/lib/dpkg/statoverride
+sudo bash -c 'sed -i '/Debian-exim/d' /var/lib/dpkg/statoverride'
 # Print success message
 echo "Line removed from statoverride file"
 # Updates
@@ -88,12 +88,12 @@ echo "REBOOT SYSTEM"
 }
 
 bullseye () {
-sudo cat << EOF > /etc/apt/sources.list
+sudo bash -c 'cat << EOF > /etc/apt/sources.list
 deb http://deb.debian.org/debian stable main contrib non-free
 deb-src http://deb.debian.org/debian stable main contrib non-free
 deb http://security.debian.org/debian-security stable-security main contrib non-free
 deb-src http://security.debian.org/debian-security stable-security main contrib non-free
-EOF
+EOF'
 # Updates
 sudo apt update
 sudo apt -y upgrade
