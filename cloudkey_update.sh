@@ -27,7 +27,7 @@ dpkg-reconfigure dash #Select NO Here
 adduser --system --force-badname --home /nonexistent --no-create-home --shell /bin/false --group _apt
 passwd -l _apt
 # Add missing keys
-apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 871920D1991BC93C 648ACFD622F3D138
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 871920D1991BC93C 648ACFD622F3D138 112695A0E562B32A 0E98404D386FA1D9
 cat << EOF > /etc/apt/sources.list
 deb http://deb.debian.org/debian/ stretch main contrib non-free
 deb http://deb.debian.org/debian/ stretch-updates main contrib non-free
