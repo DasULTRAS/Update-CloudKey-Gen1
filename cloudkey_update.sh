@@ -37,6 +37,7 @@ EOF
 apt update
 apt -y purge mongodb-clients mongodb-server
 apt -y purge ubnt-archive-keyring ubnt-unifi-setup unifi
+rm -rf /etc/bt-proxy
 apt -y purge rfkill bt-proxy bluez openjdk-8-jre-headless:armhf
 apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9-host
 apt -y purge libldap-common liblocale-gettext-perl
@@ -49,10 +50,11 @@ apt-get -y autoremove
 apt update
 apt -y install unattended-upgrades findutils
 apt -y upgrade
+rm -rf /var/run/avahi-daemon
 apt -y dist-upgrade
 apt-get -y autoremove
 echo "# buster" >> /etc/apt/sources.list
-reboot
+echo "REBOOT SYSTEM"
 }
 
 buster () {
@@ -62,12 +64,27 @@ deb-src http://deb.debian.org/debian buster main contrib non-free
 deb http://security.debian.org/debian-security buster/updates main contrib non-free
 deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
 EOF
-#apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 112695A0E562B32A 54404762BBB6E853
+## Remove unknown group 'Debian-exim' in statoverride file
+# Check if the statoverride file exists
+if [[ ! -f "/var/lib/dpkg/statoverride" ]]; then
+  echo "Statoverride file not found"
+  exit 1
+fi
+# Check if the line exists in the statoverride file
+if [[ ! $(grep "Debian-exim" /var/lib/dpkg/statoverride) ]]; then
+  echo "Line not found in statoverride file"
+  exit 1
+fi
+# Remove the line from the statoverride file
+sudo sed -i '/Debian-exim/d' /var/lib/dpkg/statoverride
+# Print success message
+echo "Line removed from statoverride file"
+# Updates
 apt update
 apt -y upgrade
 apt -y dist-upgrade
 apt -y autoremove
-reboot
+echo "REBOOT SYSTEM"
 }
 
 if [ -z $state ]; then
