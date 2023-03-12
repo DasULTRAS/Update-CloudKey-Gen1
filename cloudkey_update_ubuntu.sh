@@ -42,71 +42,71 @@ sudo apt -y purge rfkill bt-proxy bluez openjdk-8-jre-headless:armhf
 sudo rm -rf /etc/bt-proxy
 sudo apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9-host
 sudo apt -y purge libldap-common liblocale-gettext-perl
-sudo apt -y purge aufs-tools initramfs-tools
-sudo rm -rf /var/lib/initramfs-tools
+sudo apt -y purge aufs-tools
 sudo apt -y purge exim4-daemon-light exim4-config exim4-base
 sudo rm -rf /var/lib/exim4
-sudo apt -y purge busybox*
 sudo apt-get -y autoremove
 sudo apt update
 sudo apt -y upgrade
 sudo rm -rf /var/run/avahi-daemon
 sudo apt -y dist-upgrade
 sudo apt -y autoremove
-echo "# buster" >> /etc/apt/sources.list
-echo "REBOOT SYSTEM"
+echo "# xenial" >> /etc/apt/sources.list
 }
 
-buster () {
-sudo bash -c 'cat << EOF > /etc/apt/sources.list
-deb http://deb.debian.org/debian buster main contrib non-free
-deb-src http://deb.debian.org/debian buster main contrib non-free
-deb http://security.debian.org/debian-security buster/updates main contrib non-free
-deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
-EOF'
-## Remove unknown group 'Debian-exim' in statoverride file
-# Check if the statoverride file exists
-sudo bash -c 'if [[ ! -f "/var/lib/dpkg/statoverride" ]]; then
-  echo "Statoverride file not found"
-fi'
-# Check if the line exists in the statoverride file
-sudo bash -c 'if [[ ! $(grep "Debian-exim" /var/lib/dpkg/statoverride) ]]; then
-  echo "Debian-exim not found in statoverride file"
-fi'
-# Remove the line from the statoverride file
-sudo bash -c 'sed -i '/Debian-exim/d' /var/lib/dpkg/statoverride'
-# Print success message
-echo "Line removed from statoverride file"
-# Updates
-sudo apt update
-sudo apt -y upgrade
-sudo apt -y dist-upgrade
-sudo apt -y autoremove
-# init next installation
-echo "# bullseye" >> /etc/apt/sources.list
-echo "REBOOT SYSTEM"
+xenial () {
+lsb_release -a
+cat << EOF > /etc/apt/sources.list
+deb http://ports.ubuntu.com/ubuntu-ports xenial main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports xenial-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports xenial-backports main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports xenial-security main restricted universe multiverse
+EOF
+apt update
+apt -y upgrade
+apt -y full-upgrade
+apt -y autoremove
+echo "# bionic" >> /etc/apt/sources.list
 }
 
-bullseye () {
-sudo bash -c 'cat << EOF > /etc/apt/sources.list
-deb http://deb.debian.org/debian stable main contrib non-free
-deb-src http://deb.debian.org/debian stable main contrib non-free
-deb http://security.debian.org/debian-security stable-security main contrib non-free
-deb-src http://security.debian.org/debian-security stable-security main contrib non-free
-EOF'
-# Updates
-sudo apt update
-sudo apt -y upgrade
-sudo apt -y dist-upgrade
-sudo apt -y autoremove
-echo "REBOOT SYSTEM"
+bionic () {
+lsb_release -a
+cat << EOF > /etc/apt/sources.list
+deb http://ports.ubuntu.com/ubuntu-ports bionic main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports bionic-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports bionic-backports main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports bionic-security main restricted universe multiverse
+EOF
+apt update
+apt -y upgrade
+apt -y full-upgrade
+apt -y autoremove
+echo "# focal" >> /etc/apt/sources.list
 }
+
+focal () {
+lsb_release -a
+cat << EOF > /etc/apt/sources.list
+deb http://ports.ubuntu.com/ubuntu-ports focal main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports focal-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports focal-backports main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports focal-security main restricted universe multiverse
+EOF
+apt update
+apt -y install libcrypt1 libcryptsetup12 libhcrypto4-heimdal libgcrypt20 libk5crypto3
+apt -y upgrade
+apt -y full-upgrade
+apt -y autoremove
+echo "# clean" >> /etc/apt/sources.list
+}
+
 
 if [ -z $state ]; then
         echo "Latest tested version installed..."
 else
         echo "Starting with $state"
         $state
+        echo "REBOOT SYSTEM"
 fi
 
 exit 0
