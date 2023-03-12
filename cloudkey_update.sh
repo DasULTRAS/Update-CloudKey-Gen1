@@ -23,6 +23,10 @@ stretch () {
 tar -zcvf ~/sources.tgz /etc/apt/sources.list.d/
 rm -rfv /etc/apt/sources.list.d/*
 dpkg-reconfigure dash #Select NO Here
+# Add missing not privileged User for installation
+adduser --system --force-badname --home /nonexistent --no-create-home --shell /bin/false --group _apt
+passwd -l _apt
+# Add missing keys
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32 871920D1991BC93C 648ACFD622F3D138
 cat << EOF > /etc/apt/sources.list
 deb http://deb.debian.org/debian/ stretch main contrib non-free
