@@ -19,7 +19,7 @@ bash ~/cloudkey_update.sh
 
 ```
 4. Start the Script until *Latest tested version installed...*
-(5. Start with logs)
+5. (Start with logs)
 ```bash
 ./cloudkey_update.sh | tee output.txt
 ```
