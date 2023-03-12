@@ -11,7 +11,7 @@ function ctrl_c() {
 	ubnt-systool reset2defaults
 }
 
-if [ `cat /etc/apt/sources.list | egrep "^deb|^#" | wc -l` -le 4 ]; then
+if [ `cat /etc/apt/sources.list | egrep "^deb|^#" | wc -l` -le 1 ]; then
     echo "# stretch" >> /etc/apt/sources.list
 fi
 
@@ -38,7 +38,11 @@ apt -y purge freeradius freeradius-common freeradius-ldap freeradius-utils bind9
 apt -y purge libldap-common liblocale-gettext-perl
 apt -y purge aufs-tools initramfs-tools
 apt -y purge busybox*
+apt -y purge exim4*
+apt -y purge unattended-upgrades findutils
+apt-get -y autoremove
 apt update
+apt -y install unattended-upgrades findutils
 apt -y upgrade
 apt -y dist-upgrade
 apt-get -y autoremove
